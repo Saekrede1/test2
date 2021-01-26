@@ -1,0 +1,101 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
+    <title>Students Information[Bio-Data]</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://otsioperations.sharepoint.com/sites/SaiPOC/SiteAssets/global.services.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
+
+    <script type="text/javascript">
+		var listName = "Students";
+        $(document).ready(function () {
+			GetStudents();
+
+        });
+        function GetStudents() {
+            debugger;
+        var action = GlobalServices.getListItems(listName, "");
+        action.done(function (data) {
+            bindStdDtls(data);
+			
+        })
+		.fail(function (err) {
+            console.log("Failed to get list Items");
+			alert("Failed to get list Items");
+        })
+			
+		}
+		
+
+
+        function bindStdDtls(Project) {
+            try {
+
+                $('#tblProjects').DataTable({
+                    data: Project,
+                    "columns": [
+                        { "data": "Title" }
+                        , { "data": "StudentName" }
+                        , { "data": "Gender" }
+                        , { "data": "Standard" }
+                        , { "data": "StudentType" }
+                        , { "data": "DOB" }
+                        , { "data": "Age" }
+                        , { "data": "Address" }
+                        , { "data": "MobileNumber" }
+                        , { "data": "FatherName" }
+                        , {
+                            "data": 'ID',
+                            'render': function (data, type, row) {
+                                return '<a href="UpdateStudent.aspx?RequestID=' + data + ' "class="editor_edit" >Edit</a>';
+                            },
+                        }
+                        , {
+                            "data": 'ID',
+                            'render': function (data, type, row) {
+                                return '<a href="DeleteStudent.aspx?RequestID=' + data + ' "class="editor_edit" >Delete</a>';
+                            },
+                        }
+                    ]
+                });
+            }
+            catch (err) {
+            }
+        }
+
+    </script>
+</head>
+<body>
+
+    <div class="container">
+        <h4> Students Information</h4>
+		<button type="button" id="MyButtton"  onclick="location.href = 'AddStudent.aspx';" class="btn btn-warning">Add Student Details</button>
+		<h1> </h1>
+        <table class="table table-bordered" id="tblProjects">
+            <thead class="thead-light">
+                <tr>
+					<th>Student Id</th>
+                    <th>Student Name</th>
+                    <th>Gender</th>
+                    <th>Standard</th>
+                    <th>Student Type</th>
+                    <th>DateOfBirth</th>
+                    <th>Age</th>
+                    <th>Address</th>
+                    <th>Mobile Number </th>
+                    <th>Father Name</th>
+                    <th></th>
+					<th></th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</body>
+</html>
